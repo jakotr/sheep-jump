@@ -8,7 +8,7 @@ class StartScene {
         this.bg.src = 'img/startBG.png';
         this.bg.onload = () => {
             this.ctx.drawImage(this.bg, 0, 0);
-            this.ctx.font = "60px Roboto";
+            this.ctx.font = "60px Comic Sans MS";
             this.ctx.textAlign = "center";
             this.ctx.fillStyle = '#333';
             this.ctx.fillText('SHEEP JUMP', this.canvas.width/2, this.canvas.height/2 - 150);

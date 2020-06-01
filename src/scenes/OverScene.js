@@ -5,6 +5,10 @@ class OverScene {
     }
 
     create(id, score) {
+        this.goSound = new Audio('audio/sheep-gameOver.wav')
+        this.goSound.preload = 'auto';
+        model.playSounds(this.goSound);
+        model.playSound = false;
         
         cancelAnimationFrame(id);
         let opacity = 0;

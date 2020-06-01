@@ -37,11 +37,12 @@ body::after {
     border: none;
     background-color: rgb(100, 61, 34);
     color: white;
-    padding: 10px 20px;
+    padding: 15px 25px;
     min-width: 150px;
     font-size: 26px;
     cursor: pointer;
     transition: .3s;
+    border-radius: 20px;
 }
 
 #btn:hover {

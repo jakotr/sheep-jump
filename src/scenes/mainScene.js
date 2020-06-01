@@ -17,6 +17,11 @@ class MainScene {
         this.loadImage(this.bg, 0, 0, this.bg.width, this.bg.height);
 
         //audio
+        model.playSound = true;
+        this.pointSound = new Audio('audio/points.wav');
+        this.pointSound.preload = 'auto';
+        this.jumpSound = new Audio('audio/jump-wings.wav')
+        this.jumpSound.preload = 'auto';
 
         //variables
         this.gravity = .3;
@@ -63,11 +68,15 @@ class MainScene {
     }
 
     addPoint() {
+        model.playSounds(this.pointSound);
+
         this.score++;
         
     }
 
     jumpSheep() {
+        model.playSounds(this.jumpSound);
+
         this.jump = true;
         this.jumpIndex = 0;
         this.velocityY = 13;
