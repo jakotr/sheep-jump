@@ -25,6 +25,9 @@ class mainScene {
         this.jumpIndex = 0;
         this.topPipes = [];
         this.botPipes = [];
+        this.angle = -30;
+
+        this.score = 0;
         
 
         //draw the sheep
@@ -52,11 +55,26 @@ class mainScene {
         }       
     }
 
+    addPoint() {
+        this.score++;
+        
+    }
+
     jumpSheep() {
         this.jump = true;
         this.jumpIndex = 0;
         this.velocityY = 13;
         this.gravity = .3;
+
+        this.angle = -30;
+    }
+
+    rotate(element, x, y, width, height) {
+        this.ctx.save();
+        this.ctx.translate(x + width/2, y + width/2);
+        this.ctx.rotate(this.angle * Math.PI / 180);
+        this.ctx.drawImage(element, width / -2, height / -2, width, height);
+        this.ctx.restore();
     }
 
     drawPipes() {
@@ -76,7 +94,6 @@ class mainScene {
         botPipe.xPos = this.canvas.width;
         botPipe.yPos = randomPositionPipes + this.canvas.height + this.sheep.height*4;
         this.botPipes.push(botPipe);
-        console.log(randomPositionPipes)
     }
 
     update() {
@@ -86,8 +103,7 @@ class mainScene {
         this.ctx.drawImage(this.bg, 0, 0, this.bg.width, this.bg.height);
 
         this.gravity += .1;
-        this.sheep.yPos += this.gravity;
-        this.ctx.drawImage(this.sheep, this.sheep.xPos, this.sheep.yPos, this.sheep.width, this.sheep.height);
+        this.sheep.yPos += this.gravity;   
 
         this.topPipes.forEach(pipe => {
             pipe.xPos--;
@@ -110,6 +126,9 @@ class mainScene {
                 }
         });
 
+        scoreBox(this.ctx, this.score);
+
+
         if(this.topPipes[0].xPos === this.canvas.width/3) {
             this.drawPipes();
         }
@@ -120,18 +139,28 @@ class mainScene {
         }
 
         if(this.jump) {
+            this.rotate(this.sheep, this.sheep.xPos, this.sheep.yPos, this.sheep.width, this.sheep.height)
+            this.angle *= .9;
+
             this.sheep.yPos -= this.velocityY;
             this.velocityY *= .9;
             this.jumpIndex++;
             if(this.jumpIndex >= 20) {
                 this.jump = false;
+                
             }
+        } else {
+            this.ctx.drawImage(this.sheep, this.sheep.xPos, this.sheep.yPos, this.sheep.width, this.sheep.height);
         }
 
         if(this.sheep.yPos >= this.canvas.height - this.sheep.height || this.sheep.yPos <= 0) {
             this.sheep.yPos > 100 ? this.sheep.yPos = this.canvas.height - this.sheep.height : this.sheep.yPos = 0;
             this.gravity = .3;
         } 
+
+        if(this.sheep.xPos === this.topPipes[0].xPos) {
+            this.addPoint();
+        }
 
 
         //id requeta po to by wiedziec ktora zatrzymac pozniej w naszej scenie game over
