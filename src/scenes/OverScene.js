@@ -1,0 +1,42 @@
+class OverScene {
+    constructor(canvas) {
+        this.canvas = canvas;
+        this.ctx = this.canvas.getContext('2d');
+    }
+
+    create(id, score) {
+        
+        cancelAnimationFrame(id);
+        let opacity = 0;
+        
+        const intervalId = setInterval(() => {
+            this.ctx.fillStyle = `rgba(84, 84, 84, ${opacity += .001})`;
+            this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        }, 10)
+            
+
+        setTimeout(() => {
+            clearInterval(intervalId);
+            this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
+            this.bg = new Image();
+            this.bg.src = 'img/overBG.png';
+            this.bg.onload = () => {
+
+                this.ctx.drawImage(this.bg, 0, 0);
+                this.ctx.font = "50px Comic Sans MS";
+                this.ctx.fillStyle = '#8CBA51';
+                this.ctx.fillText('GAMEOVER', this.canvas.width/2,  80);
+                this.ctx.font = "30px Comic Sans MS";
+                this.ctx.fillText(`Score: ${score}`, this.canvas.width/2,  120);
+            }
+                
+            this.btn = document.querySelector('#btn');
+            this.btn.style.transform = 'translateY(200px)';
+            this.btn.style.backgroundColor = '#136d3a';
+            this.btn.style.display = "block";
+            this.btn.textContent = "PlayAgain?";
+        }, 600)
+
+        
+    }
+}

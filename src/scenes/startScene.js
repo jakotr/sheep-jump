@@ -1,4 +1,4 @@
-class startScene {
+class StartScene {
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = this.canvas.getContext('2d');
@@ -19,7 +19,7 @@ class startScene {
         this.btn = document.querySelector('#btn');
         this.btn.addEventListener('click', () => {
             this.btn.style.display = "none";
-            scenes.sceneMain.create();
+            scenes.mainScene.create();
             
         });
     }
