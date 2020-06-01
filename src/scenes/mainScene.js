@@ -23,8 +23,8 @@ class mainScene {
         this.velocityY = 0;
         this.jump = false;
         this.jumpIndex = 0;
-        this.topPipe = [];
-        this.botPipe = [];
+        this.topPipes = [];
+        this.botPipes = [];
         
 
         //draw the sheep
@@ -39,6 +39,8 @@ class mainScene {
 
         this.jumpHandler = this.jumpSheep.bind(this);
         this.canvas.addEventListener('click', this.jumpHandler);
+
+        this.drawPipes();
 
         this.update();
     }
@@ -57,6 +59,26 @@ class mainScene {
         this.gravity = .3;
     }
 
+    drawPipes() {
+        const randomPositionPipes = Math.floor(Math.random() * (-200 - (-this.canvas.height + 30)  + 1) - this.canvas.height);
+        const topPipe = new Image();
+        topPipe.src = 'img/top_pipe.png';
+        topPipe.width = this.canvas.width * .08;
+        topPipe.height = this.canvas.height;
+        topPipe.xPos = this.canvas.width;
+        topPipe.yPos = randomPositionPipes;
+        this.topPipes.push(topPipe);
+
+        const botPipe = new Image();
+        botPipe.src = 'img/bot_pipe.png';
+        botPipe.width = this.canvas.width * .08;
+        botPipe.height = this.canvas.height;
+        botPipe.xPos = this.canvas.width;
+        botPipe.yPos = randomPositionPipes + this.canvas.height + this.sheep.height*4;
+        this.botPipes.push(botPipe);
+        console.log(randomPositionPipes)
+    }
+
     update() {
 
         this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
@@ -65,7 +87,37 @@ class mainScene {
 
         this.gravity += .1;
         this.sheep.yPos += this.gravity;
-        this.ctx.drawImage(this.sheep, this.sheep.xPos, this.sheep.yPos, this.sheep.width, this.sheep.height)
+        this.ctx.drawImage(this.sheep, this.sheep.xPos, this.sheep.yPos, this.sheep.width, this.sheep.height);
+
+        this.topPipes.forEach(pipe => {
+            pipe.xPos--;
+            this.ctx.drawImage(pipe, pipe.xPos, pipe.yPos, pipe.width, pipe.height);
+
+            if(this.sheep.xPos + this.sheep.width >= pipe.xPos &&
+               this.sheep.xPos <= pipe.xPos + pipe.width &&
+               this.sheep.yPos <= pipe.yPos + pipe.height) {
+                    //-------------------------------------DEAD
+               }
+        });
+        this.botPipes.forEach(pipe => {
+            pipe.xPos--;
+            this.ctx.drawImage(pipe, pipe.xPos, pipe.yPos, pipe.width, pipe.height);
+
+            if(this.sheep.xPos + this.sheep.width >= pipe.xPos &&
+                this.sheep.xPos <= pipe.xPos + pipe.width &&
+                this.sheep.yPos >= pipe.yPos) {
+                    //-------------------------------------DEAD
+                }
+        });
+
+        if(this.topPipes[0].xPos === this.canvas.width/3) {
+            this.drawPipes();
+        }
+
+        if(this.topPipes[0].xPos <= -this.topPipes[0].width) {
+            this.topPipes.splice(0, 1);
+            this.botPipes.splice(0, 1);
+        }
 
         if(this.jump) {
             this.sheep.yPos -= this.velocityY;
