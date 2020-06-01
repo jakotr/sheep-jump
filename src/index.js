@@ -1,8 +1,4 @@
 const scene = document.getElementById('canvas');
-
-
-//tworzenie obiektu gry i wywolanie scene startowej
-
 const scenes = {
     startScene: new StartScene(scene),
     mainScene: new MainScene(scene),
@@ -10,4 +6,31 @@ const scenes = {
 };
 const model = new Model();
 
-scenes.startScene.create();
+window.onload = () => {
+    let isMobile = navigator.userAgent.indexOf("Mobile");
+    if (isMobile === -1) {
+        isMobile = navigator.userAgent.indexOf("Tablet");
+    }
+    scene.width = 480;
+    scene.height = 640;
+
+    if (isMobile!==-1)
+    {
+        if(window.outerHeight > 640) {
+            scene.height = 640;
+        } else {
+            scene.height = window.outerHeight - 20;
+        }
+        if(window.outerWidth > 480) {
+            scene.width = 480
+        }
+        else {
+            scene.width = window.outerWidth - 20;
+        }
+        
+        
+    }
+
+    scenes.startScene.create();
+}
+

@@ -24,9 +24,11 @@ class OverScene {
             this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
             this.bg = new Image();
             this.bg.src = 'img/overBG.png';
+            this.bg.width = this.canvas.width;
+            this.bg.height = this.canvas.height;
             this.bg.onload = () => {
 
-                this.ctx.drawImage(this.bg, 0, 0);
+                this.ctx.drawImage(this.bg, 0, 0, this.bg.width, this.bg.height);
                 this.ctx.font = "50px Comic Sans MS";
                 this.ctx.fillStyle = '#8CBA51';
                 this.ctx.fillText('GAMEOVER', this.canvas.width/2,  80);

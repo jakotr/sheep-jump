@@ -6,9 +6,11 @@ class StartScene {
     create() {
         this.bg = new Image();
         this.bg.src = 'img/startBG.png';
+        this.bg.width = this.canvas.width;
+        this.bg.height = this.canvas.height;
         this.bg.onload = () => {
-            this.ctx.drawImage(this.bg, 0, 0);
-            this.ctx.font = "60px Comic Sans MS";
+            this.ctx.drawImage(this.bg, 0, 0, this.bg.width, this.bg.height);
+            this.ctx.font = "50px Comic Sans MS";
             this.ctx.textAlign = "center";
             this.ctx.fillStyle = '#333';
             this.ctx.fillText('SHEEP JUMP', this.canvas.width/2, this.canvas.height/2 - 150);

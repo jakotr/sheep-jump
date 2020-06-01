@@ -30,7 +30,7 @@ class MainScene {
         this.jumpIndex = 0;
         this.topPipes = [];
         this.botPipes = [];
-        this.pipesVel = 1;
+        this.pipesVel = 1.5;
         this.angle = -30;
 
         this.score = 0;
@@ -57,7 +57,7 @@ class MainScene {
         this.drawNewPipes = setInterval(() => {
             this.pipesVel += .05;
             this.drawPipes();
-        }, 3000);
+        }, 2500);
     }
 
     loadImage(image, x, y, w, h) {
@@ -108,7 +108,7 @@ class MainScene {
         botPipe.width = this.canvas.width * .08;
         botPipe.height = this.canvas.height;
         botPipe.xPos = this.canvas.width;
-        botPipe.yPos = randomPositionPipes + this.canvas.height + this.sheep.height*4;
+        botPipe.yPos = randomPositionPipes + this.canvas.height + this.sheep.height*5;
         this.botPipes.push(botPipe);
     }
 
