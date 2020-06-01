@@ -30,7 +30,7 @@ class MainScene {
         this.jumpIndex = 0;
         this.topPipes = [];
         this.botPipes = [];
-        this.pipesVel = 1.5;
+        this.pipesVel = 2;
         this.angle = -30;
 
         this.score = 0;
@@ -53,11 +53,6 @@ class MainScene {
         this.drawPipes();
 
         this.update();
-
-        this.drawNewPipes = setInterval(() => {
-            this.pipesVel += .05;
-            this.drawPipes();
-        }, 2500);
     }
 
     loadImage(image, x, y, w, h) {
@@ -108,11 +103,19 @@ class MainScene {
         botPipe.width = this.canvas.width * .08;
         botPipe.height = this.canvas.height;
         botPipe.xPos = this.canvas.width;
-        botPipe.yPos = randomPositionPipes + this.canvas.height + this.sheep.height*5;
+        botPipe.yPos = randomPositionPipes + this.canvas.height + (this.sheep.height*4 < 150 ? 150 : this.sheep.height*4);
         this.botPipes.push(botPipe);
+
+        this.drawPipesTimeout = setTimeout(() => {
+            this.drawPipes();
+        }, 2500 - (this.score < 75 ? this.score * 20 : 1500));
     }
 
     update() {
+
+        if(this.score > 75) {
+            this.pipesVel = 3;
+        }
 
         this.ctx.clearRect(0,0, this.canvas.width, this.canvas.height);
 
@@ -121,14 +124,8 @@ class MainScene {
         this.gravity += .1;
         this.sheep.yPos += this.gravity;   
 
-        
-
         scoreBox(this.ctx, this.score);
 
-
-        // if(this.topPipes[0].xPos <= this.canvas.width/3 && this.topPipes[0].xPos >= this.canvas/3 - 10) {
-        //     this.drawPipes();
-        // }
 
         if(this.topPipes[0].xPos <= -this.topPipes[0].width) {
             this.topPipes.splice(0, 1);
@@ -155,7 +152,7 @@ class MainScene {
             this.gravity = .3;
         } 
 
-        if(this.sheep.xPos <= this.topPipes[0].xPos && this.sheep.xPos >= this.topPipes[0].xPos - 1) {
+        if(this.sheep.xPos >= this.topPipes[0].xPos && this.sheep.xPos < this.topPipes[0].xPos + this.pipesVel) {
             this.addPoint();
         }
 
@@ -172,7 +169,7 @@ class MainScene {
                this.sheep.xPos <= pipe.xPos + pipe.width &&
                this.sheep.yPos + 15 <= pipe.yPos + pipe.height) {
                 this.canvas.removeEventListener('click', this.jumpHandler);
-                clearInterval(this.drawNewPipes);
+                clearTimeout(this.drawPipesTimeout);
                 scenes.overScene.create(this.requestId, this.score);
                }
         });
@@ -184,7 +181,7 @@ class MainScene {
                 this.sheep.xPos <= pipe.xPos + pipe.width &&
                 this.sheep.yPos + this.sheep.height - 15 >= pipe.yPos) {
                     this.canvas.removeEventListener('click', this.jumpHandler);
-                    clearInterval(this.drawNewPipes);
+                    clearTimeout(this.drawPipesTimeout);
                     scenes.overScene.create(this.requestId, this.score);
                 }
         });
