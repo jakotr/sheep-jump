@@ -124,7 +124,7 @@ class MainScene {
         this.gravity += .1;
         this.sheep.yPos += this.gravity;   
 
-        scoreBox(this.ctx, this.score);
+        
 
 
         if(this.topPipes[0].xPos <= -this.topPipes[0].width) {
@@ -185,5 +185,7 @@ class MainScene {
                     scenes.overScene.create(this.requestId, this.score);
                 }
         });
+
+        scoreBox(this.ctx, this.score);
     }
 }

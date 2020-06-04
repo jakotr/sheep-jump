@@ -30,7 +30,7 @@ class OverScene {
 
                 this.ctx.drawImage(this.bg, 0, 0, this.bg.width, this.bg.height);
                 this.ctx.font = "50px Comic Sans MS";
-                this.ctx.fillStyle = '#8CBA51';
+                this.ctx.fillStyle = '#fff';
                 this.ctx.fillText('GAMEOVER', this.canvas.width/2,  80);
                 this.ctx.font = "30px Comic Sans MS";
                 this.ctx.fillText(`Score: ${score}`, this.canvas.width/2,  120);
@@ -40,7 +40,7 @@ class OverScene {
             this.btn.style.transform = 'translateY(200px)';
             this.btn.style.backgroundColor = '#136d3a';
             this.btn.style.display = "block";
-            this.btn.textContent = "PlayAgain?";
+            this.btn.textContent = "Play Again?";
         }, 600)
 
         
